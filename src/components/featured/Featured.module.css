@@ -7,14 +7,14 @@
     color: #aaa;
 }
 
-.textFild {
+.textField {
     display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: center;
 }
 
-.wraper {
+.wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -23,19 +23,19 @@
     padding: 50px 10px;
 }
 
-.imgFild img {
+.imgField img {
     max-width: 100%;
     max-height: 2200px;
     display: block;
     margin: 0 auto;
 }
 
-.wraper:nth-child(1) {
+.wrapper:nth-child(1) {
     order: 2;
 }
 
 @media screen and (max-width: 768px) {
-    .wraper:nth-child(1) {
+    .wrapper:nth-child(1) {
         grid-template-columns: 1fr;
     }
 }
@@ -43,11 +43,11 @@
 @media screen and (min-width: 768px) {
 
 
-    .wraper:nth-child(1) {
+    .wrapper:nth-child(1) {
         order: 0;
     }
 
-    .imgFild img {
+    .imgField img {
         max-width: 100%;
     }
 }

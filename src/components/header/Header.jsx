@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import classes from "./Header.module.css";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 export default function Header() {
 
   const [mobileNavActive, setMobileNavActive] = useState(false);
@@ -15,7 +17,7 @@ export default function Header() {
           <Link className={classes.link} href={"/"}>
             Home
           </Link>
-          <Link className={classes.link} href={"/product"}>
+          <Link className={classes.link} href={"/products"}>
             All Product
           </Link>
           <Link className={classes.link} href={"/categories"}>
@@ -30,7 +32,7 @@ export default function Header() {
         </nav>
         <div className={classes.navBtn} onClick={() => setMobileNavActive((prev) => !prev)}>
           {/* <BarsIcon /> */}
-          icon
+          <FontAwesomeIcon icon={faBars} />
         </div>
       </div>
     </div>

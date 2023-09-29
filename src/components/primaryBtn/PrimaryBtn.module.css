@@ -1,0 +1,28 @@
+.primaryBtn{
+    background-color: #5542f6;
+    border: 0;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.primaryBtn:hover {
+    background-color: #aaa;
+    color: black;
+}
+
+.primaryLink{
+    background-color: transparent;
+    border: 1px solid white;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.primaryLink:hover{
+    background-color: #aaa;
+    color: black;
+    border: 1px solid #aaa;
+}

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import clientPromise from "./mongodb";
+// import clientPromise from "../../";
 
-mongoose.Promise = clientPromise;
+// mongoose.Promise = clientPromise;
 
 export function mongooseConnect() {
   if (mongoose.connection.readyState === 1) {
