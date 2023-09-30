@@ -7,6 +7,7 @@
     text-decoration: none;
     position: relative;
     z-index: 3;
+    width: fit-content;
 }
 
 .wrapper {
@@ -72,14 +73,18 @@
     }
 }
 
-.badge{
-        padding: 0 5px;
-        background-color: #5542f6;
-        color: #fff;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 50%;
-        position: relative;
-        top: -38px;
-        right: -15px;
+.badge {
+    padding: 0 5px;
+    background-color: #5542f6;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50%;
+    position: relative;
+    top: -38px;
+    right: -15px;
+}
+
+.cartIcon {
+    width: fit-content;
 }

@@ -1,13 +1,18 @@
-import React from "react";
+"use client"
+import React, { useContext } from "react";
 import classes from "./ProductBox.module.css";
 import PrimaryBtn from "../primaryBtn/PrimaryBtn";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import  {faCartShopping} from "@fortawesome/free-solid-svg-icons"
+import { CartContext } from "@/services/cartContextProvider";
 function ProductBox({ product }) {
-  console.log( product.images );
+  const {addItem}=useContext(CartContext)
   const url = '/product/'+product._id;
-  console.log(url);
+  const handleClick =()=>{
+    addItem(product._id)
+  }
+  
   return (
     <div className={classes.ProductWrapper}>
       <Link className={classes.WhiteBox} href={url}>
@@ -19,7 +24,7 @@ function ProductBox({ product }) {
         <div className={classes.Title}>{product.title}</div>
         <div className={classes.PriceRow}>
           <div className={classes.Price}>$ {product.price}</div>
-          <PrimaryBtn><FontAwesomeIcon icon={faCartShopping} /></PrimaryBtn>
+          <PrimaryBtn onClick={handleClick} btnClasses={classes.cartBtn}><FontAwesomeIcon icon={faCartShopping} /></PrimaryBtn>
         </div>
       </div>
     </div>

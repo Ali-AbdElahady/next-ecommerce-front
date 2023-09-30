@@ -1,11 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { CartContext } from "@/services/cartContextProvider";
 import classes from "./Header.module.css";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 export default function Header() {
   const [mobileNavActive, setMobileNavActive] = useState(false);
+  const { cartItems } = useContext(CartContext);
+
   return (
     <div className={classes.header}>
       <div className={classes.wrapper}>
@@ -33,7 +36,7 @@ export default function Header() {
             <Link className={classes.link} href={"/cart"}>
               <FontAwesomeIcon icon={faCartShopping} />
             </Link>
-            <div className={classes.badge}>0</div>
+            <div className={classes.badge}>{cartItems.length}</div>
           </div>
         </nav>
         <div

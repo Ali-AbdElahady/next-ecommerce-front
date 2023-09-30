@@ -8,9 +8,9 @@ import PrimaryLink from "../primaryBtn/PrimaryLink";
 import { CartContext } from "@/services/cartContextProvider";
 
 function Featured({product}) {
-  // const {setCartProducts} = useContext(CartContext)
-  const addFeacheredToCart = () => { 
-
+  const {addItem} = useContext(CartContext)
+  const addFeaturedToCart = () => { 
+    addItem(prev=>[...prev,product])
   }
   return (
     <div className={classes.wrapper}>
@@ -19,7 +19,7 @@ function Featured({product}) {
         <p className={classes.description}>{product?.description}</p>
         <div className={classes.btns}>
           <PrimaryLink href={"/products/" + product?._id}>Read more</PrimaryLink>
-          <PrimaryBtn onClick={addFeacheredToCart} >
+          <PrimaryBtn onClick={addFeaturedToCart} btnClasses={classes.cartBtn} >
             <FontAwesomeIcon icon={faCartShopping} />
             <span className="ms-2">Add to cart</span>
           </PrimaryBtn>
