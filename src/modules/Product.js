@@ -8,4 +8,4 @@ const ProductSchema = new Schema({
   properties: { type: Object },
 });
 
-export const Product = models.Product || model('Product',ProductSchema)
+export const Product = models?.Product || model('Product',ProductSchema)

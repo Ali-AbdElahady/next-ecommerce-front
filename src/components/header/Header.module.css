@@ -38,7 +38,7 @@
     .nav {
         display: flex;
         position: static;
-        padding: 0;
+        padding: 0 10px 0px 0px;
     }
 }
 
@@ -70,4 +70,16 @@
     .navBtn {
         display: none;
     }
+}
+
+.badge{
+        padding: 0 5px;
+        background-color: #5542f6;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 50%;
+        position: relative;
+        top: -38px;
+        right: -15px;
 }

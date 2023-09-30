@@ -1,21 +1,25 @@
+"use client";
 import classes from "./Featured.module.css";
 import PrimaryBtn from "../primaryBtn/PrimaryBtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useContext } from "react";
 import PrimaryLink from "../primaryBtn/PrimaryLink";
+import { CartContext } from "@/services/cartContextProvider";
 
 function Featured({product}) {
+  // const {setCartProducts} = useContext(CartContext)
+  const addFeacheredToCart = () => { 
+
+  }
   return (
     <div className={classes.wrapper}>
       <div className={classes.textField}>
-        <h1 className={classes.title}>{product.title}</h1>
-        <p className={classes.description}>
-          {product.description}
-        </p>
+        <h1 className={classes.title}>{product?.title}</h1>
+        <p className={classes.description}>{product?.description}</p>
         <div className={classes.btns}>
-          <PrimaryLink href={'/products/'+product._id}>Read more</PrimaryLink>
-          <PrimaryBtn>
+          <PrimaryLink href={"/products/" + product?._id}>Read more</PrimaryLink>
+          <PrimaryBtn onClick={addFeacheredToCart} >
             <FontAwesomeIcon icon={faCartShopping} />
             <span className="ms-2">Add to cart</span>
           </PrimaryBtn>
@@ -23,6 +27,7 @@ function Featured({product}) {
       </div>
       <div className={classes.imgField}>
         <img
+          // src={product.images[0].url}
           src="https://dawid-next-ecommerce.s3.amazonaws.com/1679151719649.png"
           alt=""
         />

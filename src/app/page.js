@@ -11,11 +11,13 @@ async function getFeaturedProduct() {
   await mongooseConnect();
   const product = await Product.findById(featuredProductId);
   const newProducts = await Product.find({},null, {sort:{'_id': -1},limit:8})
-  return {product, newProducts};
+  return Response.json({product, newProducts});
 }
 
 export default async function Home() {
-  const {product,newProducts} = await getFeaturedProduct();
+  const res = await getFeaturedProduct();
+  const data = await res.json();
+  const {product, newProducts} = data
   return (
     <>
       <Featured product={product}></Featured>

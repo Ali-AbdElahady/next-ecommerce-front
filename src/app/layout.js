@@ -8,6 +8,7 @@ config.autoAddCss = false;
 const inter = Inter({ subsets: ["latin"] });
 import "nprogress/nprogress.css";
 import dynamic from "next/dynamic";
+import  {CartContextProvider}  from "@/services/cartContextProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -26,9 +27,11 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <TopProgressBar />
-        <Header></Header>
-        <div>{children}</div>
+        <CartContextProvider>
+          <TopProgressBar />
+          <Header></Header>
+          <div>{children}</div>
+        </CartContextProvider>
       </body>
     </html>
   );
