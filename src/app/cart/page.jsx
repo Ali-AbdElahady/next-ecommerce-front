@@ -1,10 +1,11 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./cart.module.css";
 import { CartContext } from "@/services/cartContextProvider";
 import Table from "@/components/table/Table";
 import PrimaryBtn from "@/components/primaryBtn/PrimaryBtn";
 import Input from "@/components/input/Input";
+import axios from "axios";
 
 function Cart() {
   const { cartItems, addItem, deleteItem, clearCart } = useContext(CartContext);
@@ -17,6 +18,15 @@ function Cart() {
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      axios.post("/api/cart", { ids: cartItems }).then((response) => {
+        setProducts(response.data);
+        console.log(response.data);
+      });
+    }
+  }, [cartItems]);
+
   function lessOfThisProduct(id) {
     deleteItem(id);
   }
@@ -25,10 +35,14 @@ function Cart() {
     addItem(id);
   }
 
-
   async function goToPayment() {
-    const response = await axios.post('/api/checkout', {
-      name, email, city, postalCode, streetAddress, country,
+    const response = await axios.post("/api/checkout", {
+      name,
+      email,
+      city,
+      postalCode,
+      streetAddress,
+      country,
       cartProducts,
     });
     if (response.data.url) {
@@ -87,7 +101,7 @@ function Cart() {
           </Table>
         )}
       </div>
-      { (
+      {
         <div className={styles.Box}>
           <h2>Order information</h2>
           <Input
@@ -136,7 +150,7 @@ function Cart() {
           />
           <PrimaryBtn onClick={goToPayment}>Continue to payment</PrimaryBtn>
         </div>
-      )}
+      }
     </div>
   );
 }
