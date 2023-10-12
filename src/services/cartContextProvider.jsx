@@ -1,30 +1,37 @@
 "use client";
 const { createContext, useState, useEffect } = require("react");
 
-export const CartContext = createContext({});
+const initialValue = {
+  cartItems: [],
+  addItem: () => {},
+  deleteItem: () => {},
+  clearCart: () => {},
+};
+
+export const CartContext = createContext(initialValue);
 
 export function CartContextProvider({ children }) {
   const ls = typeof window !== "undefined" ? window.localStorage : null;
   const [cartItems, setCartItems] = useState([]);
-  
+
   useEffect(() => {
     if (cartItems?.length > 0) {
-      ls?.setItem('cart', JSON.stringify(cartItems));
+      ls?.setItem("cart", JSON.stringify(cartItems));
     }
-  }, [cartItems]);
+  }, [cartItems,ls]);
   useEffect(() => {
-    if (ls && ls.getItem('cart')) {
-      setCartItems(JSON.parse(ls.getItem('cart')));
+    if (ls && ls.getItem("cart")) {
+      setCartItems(JSON.parse(ls.getItem("cart")));
     }
   }, []);
   function addItem(productId) {
-    setCartItems(prev => [...prev,productId]);
+    setCartItems((prev) => [...prev, productId]);
   }
   function deleteItem(productId) {
-    setCartItems(prev => {
+    setCartItems((prev) => {
       const pos = prev.indexOf(productId);
       if (pos !== -1) {
-        return prev.filter((value,index) => index !== pos);
+        return prev.filter((value, index) => index !== pos);
       }
       return prev;
     });
@@ -37,9 +44,11 @@ export function CartContextProvider({ children }) {
     cartItems,
     addItem,
     deleteItem,
-    clearCart
+    clearCart,
   };
   return (
-    <CartContext.Provider value={cartContextValue}>{children}</CartContext.Provider>
+    <CartContext.Provider value={cartContextValue}>
+      {children}
+    </CartContext.Provider>
   );
 }
