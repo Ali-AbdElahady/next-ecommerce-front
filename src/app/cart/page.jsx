@@ -6,6 +6,7 @@ import Table from "@/components/table/Table";
 import PrimaryBtn from "@/components/primaryBtn/PrimaryBtn";
 import Input from "@/components/input/Input";
 import axios from "axios";
+import Image from "next/image";
 
 function Cart() {
   const { cartItems, addItem, deleteItem, clearCart } = useContext(CartContext);
@@ -75,7 +76,7 @@ function Cart() {
                 <tr key={product._id}>
                   <td className={styles.ProductInfoCell}>
                     <div className={style.ProductImageBox}>
-                      <img src={product.images[0].url} alt="" />
+                      <Image src={product.images[0].url} alt="" />
                     </div>
                     {product.title}
                   </td>
@@ -100,10 +101,51 @@ function Cart() {
             </tbody>
           </Table>
         )}
+         {products?.length > 0 && (
+              <Table>
+                <thead>
+                  <tr className={styles.bold}>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map(product => (
+                    <tr key={product._id}>
+                      <td className={styles.ProductInfoCell}>
+                        <div className={styles.ProductImageBox}>
+                          <img src={product.images[0].url} alt={""}  />
+                        </div>
+                        {product.title}
+                      </td>
+                      <td>
+                        <PrimaryBtn
+                          btnClasses={styles.increment}
+                          onClick={() => lessOfThisProduct(product._id)}>-</PrimaryBtn>
+                        <span className={styles.QuantityLabel}>
+                          {cartItems.filter(id => id === product._id).length}
+                        </span>
+                        <PrimaryBtn btnClasses={styles.increment} 
+                          onClick={() => moreOfThisProduct(product._id)}>+</PrimaryBtn>
+                      </td>
+                      <td className={styles.bold}>
+                        ${cartItems.filter(id => id === product._id).length * product.price}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td className={styles.bold}>${total}</td>
+                  </tr>
+                </tbody>
+              </Table>
+            )}
       </div>
       {
         <div className={styles.Box}>
-          <h2>Order information</h2>
+          <h2 className={styles.orderInformation}>Order information</h2>
           <Input
             type="text"
             placeholder="Name"
@@ -148,7 +190,7 @@ function Cart() {
             name="country"
             onChange={(ev) => setCountry(ev.target.value)}
           />
-          <PrimaryBtn onClick={goToPayment}>Continue to payment</PrimaryBtn>
+          <PrimaryBtn btnClasses={styles.orderBtn} onClick={goToPayment}>Continue to payment</PrimaryBtn>
         </div>
       }
     </div>

@@ -9,6 +9,7 @@
 
 .primaryBtn:hover {
     background-color: #aaa;
+    opacity: 0.7;
     color: black;
 }
 
@@ -25,4 +26,9 @@
     background-color: #aaa;
     color: black;
     border: 1px solid #aaa;
+}
+
+.increment {
+    background-color: rgb(173, 173, 173) !important;
+    min-width: 41px !important;
 }
