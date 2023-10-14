@@ -7,6 +7,7 @@ import PrimaryBtn from "@/components/primaryBtn/PrimaryBtn";
 import Input from "@/components/input/Input";
 import axios from "axios";
 import Image from "next/image";
+import { headers } from "../../../next.config";
 
 function Cart() {
   const { cartItems, addItem, deleteItem, clearCart } = useContext(CartContext);
@@ -37,6 +38,7 @@ function Cart() {
   }
 
   async function goToPayment() {
+    console.log(products);
     const response = await axios.post("/api/checkout", {
       name,
       email,
@@ -44,13 +46,13 @@ function Cart() {
       postalCode,
       streetAddress,
       country,
-      cartProducts,
-    });
-    if (response.data.url) {
-      window.location = response.data.url;
-    }
+      products: cartItems.join(","),
+    }).then(res => console.log(res.data))
+    // if (response.data.url) {
+    //   window.location = response.data.url;
+    // }
   }
-
+ 
   let total = 0;
   for (const productId of cartItems) {
     const price = products.find((p) => p._id === productId)?.price || 0;
@@ -101,47 +103,56 @@ function Cart() {
             </tbody>
           </Table>
         )}
-         {products?.length > 0 && (
-              <Table>
-                <thead>
-                  <tr className={styles.bold}>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map(product => (
-                    <tr key={product._id}>
-                      <td className={styles.ProductInfoCell}>
-                        <div className={styles.ProductImageBox}>
-                          <img src={product.images[0].url} alt={""}  />
-                        </div>
-                        {product.title}
-                      </td>
-                      <td>
-                        <PrimaryBtn
-                          btnClasses={styles.increment}
-                          onClick={() => lessOfThisProduct(product._id)}>-</PrimaryBtn>
-                        <span className={styles.QuantityLabel}>
-                          {cartItems.filter(id => id === product._id).length}
-                        </span>
-                        <PrimaryBtn btnClasses={styles.increment} 
-                          onClick={() => moreOfThisProduct(product._id)}>+</PrimaryBtn>
-                      </td>
-                      <td className={styles.bold}>
-                        ${cartItems.filter(id => id === product._id).length * product.price}
-                      </td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td className={styles.bold}>${total}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            )}
+        {products?.length > 0 && (
+          <Table>
+            <thead>
+              <tr className={styles.bold}>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id}>
+                  <td className={styles.ProductInfoCell}>
+                    <div className={styles.ProductImageBox}>
+                      <img src={product.images[0].url} alt={""} />
+                    </div>
+                    {product.title}
+                  </td>
+                  <td>
+                    <PrimaryBtn
+                      btnClasses={styles.increment}
+                      onClick={() => lessOfThisProduct(product._id)}
+                    >
+                      -
+                    </PrimaryBtn>
+                    <span className={styles.QuantityLabel}>
+                      {cartItems.filter((id) => id === product._id).length}
+                    </span>
+                    <PrimaryBtn
+                      btnClasses={styles.increment}
+                      onClick={() => moreOfThisProduct(product._id)}
+                    >
+                      +
+                    </PrimaryBtn>
+                  </td>
+                  <td className={styles.bold}>
+                    $
+                    {cartItems.filter((id) => id === product._id).length *
+                      product.price}
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <td></td>
+                <td></td>
+                <td className={styles.bold}>${total}</td>
+              </tr>
+            </tbody>
+          </Table>
+        )}
       </div>
       {
         <div className={styles.Box}>
@@ -190,7 +201,10 @@ function Cart() {
             name="country"
             onChange={(ev) => setCountry(ev.target.value)}
           />
-          <PrimaryBtn btnClasses={styles.orderBtn} onClick={goToPayment}>Continue to payment</PrimaryBtn>
+          <input type="hidden" name="products" value={cartItems.join(",")} />
+          <PrimaryBtn btnClasses={styles.orderBtn} onClick={goToPayment}>
+            Continue to payment
+          </PrimaryBtn>
         </div>
       }
     </div>
