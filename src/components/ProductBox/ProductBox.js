@@ -8,7 +8,7 @@ import  {faCartShopping} from "@fortawesome/free-solid-svg-icons"
 import { CartContext } from "@/services/cartContextProvider";
 function ProductBox({ product }) {
   const {addItem}=useContext(CartContext)
-  const url = '/product/'+product._id;
+  const url = '/products/'+product._id;
   const handleClick =()=>{
     addItem(product._id)
   }

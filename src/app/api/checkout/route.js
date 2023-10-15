@@ -1,5 +1,7 @@
 import { mongooseConnect } from "@/lib/mongoose";
+import { Order } from "@/modules/Order";
 import { Product } from "@/modules/Product";
+
 
 export async function POST(req, res) {
   console.log(
@@ -37,6 +39,18 @@ export async function POST(req, res) {
       });
     }
   }
-  const result = Response.json( line_items );
+
+  Order.create({
+    line_items,
+    name,
+    email,
+    city,
+    postalCode,
+    streetAddress,
+    country,
+    paid: false,
+  });
+
+  const result = Response.json(line_items);
   return result;
 }

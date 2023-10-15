@@ -1,0 +1,29 @@
+.ColWrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin: 40px 0;
+}
+
+@media screen and (min-width: 768px){
+    .colWrapper {
+        grid-template-columns: .8fr 1.2fr;
+    }
+
+}
+
+.PriceRow{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.Price{
+    font-size: 1.4rem;
+}
+
+.WhiteBox{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+}
