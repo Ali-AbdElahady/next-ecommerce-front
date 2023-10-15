@@ -1,29 +1,27 @@
-"use client";
 import React from "react";
 import styles from "./productDetails.module.css";
 import ProductImages from "@/components/ProductImages/ProductImages";
 import { mongooseConnect } from "@/lib/mongoose";
-// import { Product } from "@/modules/Product";
-import { useSearchParams } from "next/navigation";
+import { Product } from "@/modules/Product";
+import { Types } from "mongoose";
 
-export async function GetProduct() {
-  const searchParams = useSearchParams();
-  console.log(searchParams);
-  const id = searchParams.get("id");
+export async function GetProduct(id) {
   console.log(id);
-  // await mongooseConnect();
-  // const product = await Product.findById(id);
-  // return Response.json(product);
+  await mongooseConnect();
+  const product = await Product.findById(id);
+  return Response.json(product);
 }
 
-function ProductDetails() {
-  const res = GetProduct();
-  // console.log(res);
+async function ProductDetails({ params }) {
+  const id = params.id;
+  console.log(id);
+  const res = await GetProduct(id);
+  const product = await res.json();
   return (
     <div>
       <div className={styles.ColWrapper}>
         <div className={styles.WhiteBox}>
-          <ProductImages images={[]} />
+          <ProductImages images={product.images} />
         </div>
       </div>
     </div>

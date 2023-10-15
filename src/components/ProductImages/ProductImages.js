@@ -3,7 +3,7 @@ import React , {useState} from "react";
 import styles from "./ProductImages.module.css";
 
 function ProductImages({ images }) {
-  const [activeImage, setActiveImage] = useState(images?.[0]);
+  const [activeImage, setActiveImage] = useState(images?.[0].url);
   return (
     <>
       <div className={styles.BigImageWrapper}>
@@ -13,11 +13,11 @@ function ProductImages({ images }) {
         {images?.map((img) => {
           return (
             <div
-              key={img}
+              key={img.id}
               className={styles.ImageButton}
-              onClick={() => setActiveImage(img)}
+              onClick={() => setActiveImage(img.url)}
             >
-              <img className={styles.Image} src={img} alt="" />
+              <img className={styles.Image} src={img.url} alt="" />
             </div>
           );
         })}
