@@ -40,7 +40,7 @@
 .ProductInfoBox {
   margin-top: 5px;
   display: flex;
-  height: -webkit-fill-available;
+  height: 100%;
   flex-direction: column;
   justify-content: space-between;
 }
