@@ -1,6 +1,6 @@
 .ColWrapper{
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 40px;
     margin: 40px 0;
 }
@@ -26,4 +26,7 @@
     background-color: #fff;
     border-radius: 10px;
     padding: 30px;
+}
+.detailsSec{
+    padding: 1rem;
 }

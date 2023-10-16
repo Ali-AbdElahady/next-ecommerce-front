@@ -26,3 +26,9 @@
 .BigImageWrapper {
     text-align: center;
 }
+
+.imageWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

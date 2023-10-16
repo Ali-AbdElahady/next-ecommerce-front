@@ -3,7 +3,7 @@ import styles from "./productDetails.module.css";
 import ProductImages from "@/components/ProductImages/ProductImages";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/modules/Product";
-import { Types } from "mongoose";
+import AddProductSec from "@/components/addProductSec/AddProductSec";
 
 export async function GetProduct(id) {
   console.log(id);
@@ -22,6 +22,14 @@ async function ProductDetails({ params }) {
       <div className={styles.ColWrapper}>
         <div className={styles.WhiteBox}>
           <ProductImages images={product.images} />
+        </div>
+        <div className={styles.detailsSec}>
+          <h1>{product.title}</h1>
+          <p>{product.description}</p>
+          <div className={styles.PriceRow}>
+            <div className={styles.Price}>${product.price}</div>
+            <AddProductSec id={product._id} />
+          </div>
         </div>
       </div>
     </div>

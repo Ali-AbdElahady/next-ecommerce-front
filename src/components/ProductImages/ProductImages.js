@@ -5,7 +5,7 @@ import styles from "./ProductImages.module.css";
 function ProductImages({ images }) {
   const [activeImage, setActiveImage] = useState(images?.[0].url);
   return (
-    <>
+    <div className={styles.imageWrapper}>
       <div className={styles.BigImageWrapper}>
         <img className={styles.BigImage} src={activeImage} />
       </div>
@@ -22,7 +22,7 @@ function ProductImages({ images }) {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 
