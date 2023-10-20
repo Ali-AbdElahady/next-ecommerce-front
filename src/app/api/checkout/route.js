@@ -1,14 +1,12 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { Order } from "@/modules/Order";
 import { Product } from "@/modules/Product";
+const stripe = require('stripe')(process.env.STRIPE_SK);
 
 
 export async function POST(req, res) {
-  console.log(
-    "1111111111111111111111111111111111111111111111111111111111111111111"
-  );
   if (req.method !== "POST") {
-    res.json("Shoud be a POST request");
+    res.json("Should be a POST request");
     return;
   }
   const body = await req.json();
@@ -32,15 +30,15 @@ export async function POST(req, res) {
       line_items.push({
         quantity,
         price_data: {
-          curruncy: "USD",
+          currency: "USD",
           product_data: { name: productInfo.title },
-          unit_amount: quantity * productInfo.price,
+          unit_amount: quantity * productInfo.price * 100,
         },
       });
     }
   }
 
-  Order.create({
+  const orderDoc = await Order.create({
     line_items,
     name,
     email,
@@ -51,6 +49,15 @@ export async function POST(req, res) {
     paid: false,
   });
 
-  const result = Response.json(line_items);
+  const session = await stripe.checkout.sessions.create({
+    line_items,
+    mode:'payment',
+    customer_email:email,
+    success_url:process.env.SUCCESS_URL +"/cart?success=1",
+    cancel_url:process.env.SUCCESS_URL +"/cart?canceled=1",
+    metadata:{orderId:orderDoc._id.toString()}
+  })
+
+  const result = Response.json({url:session.url});
   return result;
 }

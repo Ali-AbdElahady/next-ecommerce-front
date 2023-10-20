@@ -19,6 +19,7 @@ function Cart() {
   const [streetAddress, setStreetAddress] = useState("");
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [paymentErrors, setPaymentErrors] = useState(false);
 
   useEffect(() => {
     if (cartItems.length > 0) {
@@ -29,6 +30,16 @@ function Cart() {
     }
   }, [cartItems]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    if (window?.location.href.includes("success")) {
+      setIsSuccess(true);
+      clearCart();
+    }
+  }, []);
+
   function lessOfThisProduct(id) {
     deleteItem(id);
   }
@@ -38,25 +49,58 @@ function Cart() {
   }
 
   async function goToPayment() {
-    console.log(products);
-    const response = await axios.post("/api/checkout", {
-      name,
-      email,
-      city,
-      postalCode,
-      streetAddress,
-      country,
-      products: cartItems.join(","),
-    }).then(res => console.log(res.data))
-    // if (response.data.url) {
-    //   window.location = response.data.url;
-    // }
+    setPaymentErrors(false);
+    if (
+      !name ||
+      !email ||
+      !city ||
+      !country ||
+      !postalCode ||
+      !streetAddress ||
+      !products
+    ) {
+      setPaymentErrors(true);
+      return;
+    }
+
+    if (!paymentErrors) {
+      const response = await axios
+        .post("/api/checkout", {
+          name,
+          email,
+          city,
+          postalCode,
+          streetAddress,
+          country,
+          products: cartItems.join(","),
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.url) {
+            window.location = res.data.url;
+          }
+          localStorage.removeItem('cart')
+        });
+    }
   }
- 
+
   let total = 0;
   for (const productId of cartItems) {
     const price = products.find((p) => p._id === productId)?.price || 0;
     total += price;
+  }
+
+  if (isSuccess) {
+    return (
+      <>
+        <div className={styles.ColumnsWrapper}>
+          <div className={styles.Box}>
+              <h1>Thanks for your order!</h1>
+              <p>We will email you when your order will be sent.</p>
+          </div>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -201,7 +245,11 @@ function Cart() {
             name="country"
             onChange={(ev) => setCountry(ev.target.value)}
           />
-          <input type="hidden" name="products" value={cartItems.join(",")} />
+          {paymentErrors && (
+            <div class="alert alert-danger" role="alert">
+              Please make sure all fields are filled
+            </div>
+          )}
           <PrimaryBtn btnClasses={styles.orderBtn} onClick={goToPayment}>
             Continue to payment
           </PrimaryBtn>
