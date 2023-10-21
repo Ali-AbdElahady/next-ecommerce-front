@@ -21,7 +21,10 @@ export function CartContextProvider({ children }) {
   }, [cartItems,ls]);
   useEffect(() => {
     if (ls && ls.getItem("cart")) {
-      setCartItems(JSON.parse(ls.getItem("cart")));
+      const itemsId = JSON.parse(ls.getItem("cart"));
+      const idsWithOutNull = itemsId.filter((id) => id !== null);
+      ls.setItem("cart", JSON.stringify(idsWithOutNull));
+      setCartItems(idsWithOutNull);
     }
   }, []);
   function addItem(productId) {

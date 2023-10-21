@@ -6,21 +6,21 @@ const stripe = require('stripe')(process.env.STRIPE_SK);
 
 export async function POST(req, res) {
   if (req.method !== "POST") {
-    res.json("Should be a POST request");
-    return;
+    const result = Response.json("Should be a POST request");
+    return result
   }
   const body = await req.json();
   const { name, email, city, postalCode, streetAddress, country, products } =
     body;
 
   await mongooseConnect();
-  console.log(products);
   const productsIds = products.split(",");
   const uniqueIds = [...new Set(productsIds)];
   //   const productsInfo =await Product.find({_id:uniqueIds})
   const productsInfos = await Product.find({ _id: { $in: uniqueIds } });
 
   let line_items = [];
+  console.log(productsInfos);
   for (const productId of uniqueIds) {
     const productInfo = productsInfos.find(
       (p) => p._id.toString() === productId
@@ -32,11 +32,13 @@ export async function POST(req, res) {
         price_data: {
           currency: "USD",
           product_data: { name: productInfo.title },
-          unit_amount: quantity * productInfo.price * 100,
+          unit_amount: Math.round(quantity * productInfo.price * 100),
         },
       });
     }
   }
+
+  console.log(line_items);
 
   const orderDoc = await Order.create({
     line_items,

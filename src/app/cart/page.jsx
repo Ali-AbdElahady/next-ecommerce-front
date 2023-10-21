@@ -80,7 +80,7 @@ function Cart() {
             window.location = res.data.url;
           }
           localStorage.removeItem('cart')
-        });
+        }).catch((er)=> console.log(er));
     }
   }
 
